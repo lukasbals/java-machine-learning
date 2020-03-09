@@ -7,6 +7,8 @@ import weka.classifiers.trees.J48;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
 
+import java.util.Random;
+
 /**
  * @author Lukas Bals
  */
@@ -19,8 +21,13 @@ public class WekaTester {
         // Load data sets (training + test data)
         long start = System.currentTimeMillis();
 
-        Instances trainingSet = Loader.loadTrainingSet();
-        Instances testSet = Loader.loadTestSet();
+        Instances dataSet = Loader.loadTrainingSet();
+        // Randomize that data so it's not possible to learn the same set twice
+        dataSet.randomize(new Random());
+
+        int numInstances = dataSet.numInstances();
+        Instances trainingSet = new Instances(dataSet, 0, (int) (numInstances * 0.9));
+        Instances testSet = new Instances(dataSet, (int) (numInstances * 0.9), (int) (numInstances * 0.1));
 
         long end = System.currentTimeMillis();
         printer.printToLogAndResults(String.format("Loaded dataset in %s seconds", (end - start) / 1000.));
