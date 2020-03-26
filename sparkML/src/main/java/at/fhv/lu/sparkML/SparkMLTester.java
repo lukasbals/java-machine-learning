@@ -1,14 +1,10 @@
 package at.fhv.lu.sparkML;
 
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.mllib.classification.NaiveBayes;
-import org.apache.spark.mllib.classification.NaiveBayesModel;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.util.MLUtils;
-import scala.Tuple2;
 
 public class SparkMLTester {
     public static void main(String[] args) {
@@ -23,11 +19,12 @@ public class SparkMLTester {
         JavaRDD<LabeledPoint> test = tmp[1]; // test set
 
 
-        NaiveBayesModel model = NaiveBayes.train(training.rdd(), 1.0);
-        JavaPairRDD<Double, Double> predictionAndLabel = test.mapToPair(p -> new Tuple2<>(model.predict(p.features()), p.label()));
-        double accuracy = predictionAndLabel.filter(pl -> pl._1().equals(pl._2())).count() / (double) test.count();
+//        NaiveBayesUtil.train(training, test);
+//
+//        DecisionTreeUtil.train(training, test);
 
-        System.out.println(accuracy);
+        RandomForestUtil.train(training, test);
+
         jsc.stop();
     }
 }
