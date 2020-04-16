@@ -20,7 +20,7 @@ public class SparkMLTester {
 
 
 //        NaiveBayesUtil.train(training, test);
-//
+
 //        DecisionTreeUtil.train(training, test);
 
         RandomForestUtil.train(training, test);
