@@ -10,29 +10,43 @@ import java.util.Random;
 public class WekaTester {
     public static void main(String[] args) {
         Printer printer = new Printer();
-
         printer.printToLogAndResults("=== Weka Testing ===");
 
-        // Load data sets (training + test data)
-        long start = System.currentTimeMillis();
+        for (int i = 0; i < 12; i++) {
+            long start = System.currentTimeMillis();
 
-        Instances dataSet = Loader.loadTrainingSet();
-        // Randomize that data so it's not possible to learn the same set twice
-        dataSet.randomize(new Random());
+            Instances dataSet = Loader.loadTrainingSet();
 
-        int numInstances = dataSet.numInstances();
-        Instances trainingSet = new Instances(dataSet, 0, (int) (numInstances * 0.9));
-        Instances testSet = new Instances(dataSet, (int) (numInstances * 0.9), (int) (numInstances * 0.1));
+            // Randomize that data so it's not possible to learn the same set twice
+            dataSet.randomize(new Random());
 
-        long end = System.currentTimeMillis();
-        printer.printToLogAndResults(String.format("Loaded dataset in %s seconds", (end - start) / 1000.));
-        printer.printToLogAndResults(String.format("Instances in Training Set: %s", trainingSet.numInstances()));
-        printer.printToLogAndResults(String.format("Instances in Test Set: %s", testSet.numInstances()));
+            Instances dataSetNew = new Instances(dataSet, 0, (int) (dataSet.numInstances() * 0.5));
 
-//        NaiveBayesUtil.run(trainingSet, testSet, printer);
-//        DecisionTreeUtil.run(trainingSet, testSet, printer);
-        RandomForestUtil.run(trainingSet, testSet, printer);
+            int numInstances = dataSetNew.numInstances();
+            Instances trainingSet = new Instances(dataSetNew, 0, (int) (numInstances * 0.75));
+            Instances testSet = new Instances(dataSetNew, (int) (numInstances * 0.75), (int) (numInstances * 0.25));
 
+
+            long end = System.currentTimeMillis();
+            printer.printToLogAndResults(String.format(
+                    "Loaded dataset in %s seconds", (end - start))
+            );
+            printer.printToLogAndResults(
+                    String.format("Instances in Training Set: %s", trainingSet.numInstances())
+            );
+            printer.printToLogAndResults(
+                    String.format("Instances in Test Set: %s", testSet.numInstances())
+            );
+
+//            NaiveBayesUtil.run(trainingSet, testSet, printer);
+
+//            DecisionTreeUtil.run(trainingSet, testSet, printer);
+
+            RandomForestUtil.run(trainingSet, testSet, printer);
+
+            printer.printToLogAndResults("===========================================");
+
+        }
         printer.closeStream();
     }
 }

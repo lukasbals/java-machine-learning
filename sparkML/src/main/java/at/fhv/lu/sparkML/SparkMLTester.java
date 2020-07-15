@@ -4,26 +4,35 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.regression.LabeledPoint;
-import org.apache.spark.mllib.util.MLUtils;
+
+import java.util.ArrayList;
 
 public class SparkMLTester {
     public static void main(String[] args) {
-        SparkConf sparkConf = new SparkConf().setMaster("local").setAppName("JavaNaiveBayesExample");
+        Printer printer = new Printer();
+        printer.printToLogAndResults("=== SparkML Testing ===");
+
+        SparkConf sparkConf = new SparkConf().setMaster("local").setAppName("JavaML");
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 
         String path = "../data/mnist";
 
-        JavaRDD<LabeledPoint> inputData = MLUtils.loadLibSVMFile(jsc.sc(), path).toJavaRDD();
-        JavaRDD<LabeledPoint>[] tmp = inputData.randomSplit(new double[]{0.9, 0.1});
-        JavaRDD<LabeledPoint> training = tmp[0]; // training set
-        JavaRDD<LabeledPoint> test = tmp[1]; // test set
 
+        for (int i = 0; i < 12; i++) {
 
-//        NaiveBayesUtil.train(training, test);
+            ArrayList<JavaRDD<LabeledPoint>> trainingAndTestData = Loader.loadDataSet(path, jsc);
+            JavaRDD<LabeledPoint> training = trainingAndTestData.get(0);
+            JavaRDD<LabeledPoint> test = trainingAndTestData.get(1);
 
-//        DecisionTreeUtil.train(training, test);
+//            NaiveBayesUtil.train(training, test, printer);
 
-        RandomForestUtil.train(training, test);
+//            DecisionTreeUtil.train(training, test, printer);
+
+            RandomForestUtil.train(training, test, printer);
+
+            printer.printToLogAndResults("===========================================");
+
+        }
 
         jsc.stop();
     }

@@ -8,6 +8,11 @@
   <name>sparkML</name>
   <url>http://maven.apache.org</url>
 
+  <properties>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -24,46 +29,8 @@
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_2.12</artifactId>
-      <version>2.4.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.spark</groupId>
       <artifactId>spark-mllib_2.12</artifactId>
       <version>2.4.5</version>
     </dependency>
   </dependencies>
-
-
-
-  <!-- Deeplearning4j -->
-<!--    <dependency>-->
-<!--      <groupId>org.nd4j</groupId>-->
-<!--      <artifactId>nd4j-x86</artifactId>-->
-<!--      <version>0.4-rc3.2</version>-->
-<!--    </dependency>-->
-<!--&lt;!&ndash;    <dependency>&ndash;&gt;-->
-<!--&lt;!&ndash;      <groupId>org.nd4j</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;      <artifactId>nd4j-api</artifactId>&ndash;&gt;-->
-<!--&lt;!&ndash;      <version>0.4-rc3.2</version>&ndash;&gt;-->
-<!--&lt;!&ndash;    </dependency>&ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.deeplearning4j</groupId>-->
-<!--      <artifactId>dl4j-spark-ml</artifactId>-->
-<!--      <version>0.4-rc3.2</version>-->
-<!--    </dependency>-->
-<!--  </dependencies>-->
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
